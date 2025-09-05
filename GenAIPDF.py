@@ -9,6 +9,8 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import fitz  # PyMuPDF for compression
 from pptx import Presentation
+from keep_alive import keep_alive
+keep_alive()
 
 # --- MENU ---
 MAIN_MENU = [
