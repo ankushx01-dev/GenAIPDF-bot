@@ -1,0 +1,6 @@
+python-telegram-bot==20.3
+PyPDF2
+Pillow
+reportlab
+pymupdf
+python-pptx
