@@ -8,8 +8,6 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import fitz  # PyMuPDF for compression
-
-
 from dotenv import load_dotenv
 
 load_dotenv()
