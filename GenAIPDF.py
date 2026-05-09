@@ -10,6 +10,10 @@ from reportlab.lib.pagesizes import letter
 import fitz  # PyMuPDF for compression
 from pptx import Presentation
 from keep_alive import keep_alive
+from dotenv import load_dotenv
+
+load_dotenv()
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 keep_alive()
 
 # --- MENU ---
@@ -17,7 +21,6 @@ MAIN_MENU = [
     [InlineKeyboardButton("🖼 Image → PDF", callback_data="image_to_pdf")],
     [InlineKeyboardButton("📂 Merge PDFs", callback_data="merge_pdfs")],
     [InlineKeyboardButton("🗜 Compress PDF", callback_data="compress_pdf")],
-    [InlineKeyboardButton("📊 PPT → PDF", callback_data="ppt_to_pdf")],
     [InlineKeyboardButton("💧 Watermark PDF", callback_data="watermark_pdf")],
     [InlineKeyboardButton("🔒 Protect PDF", callback_data="protect_pdf")],
 ]
@@ -49,7 +52,6 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "image_to_pdf": "📸 Send me 1 or more images. Type /done when finished.",
         "merge_pdfs": "📂 Send me multiple PDFs. Type /done when finished.",
         "compress_pdf": "🗜 Send me a PDF to compress.",
-        "ppt_to_pdf": "📊 Send me a PowerPoint (.pptx) file.",
         "watermark_pdf": "💧 Send me a PDF for watermarking.",
         "protect_pdf": "🔒 Send me a PDF to protect."
     }
@@ -104,16 +106,6 @@ async def handle_files(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_document(document=open(output, "rb"))
             cleanup([file_path, output])
             await update.message.reply_text("✅ Done! Type /start to select another task.")
-
-        elif task == "ppt_to_pdf":
-            await update.message.reply_text("⏳ Converting PPT → PDF...")
-            output = ppt_to_pdf(file_path)
-            if output:
-                await update.message.reply_document(document=open(output, "rb"))
-                cleanup([file_path, output])
-                await update.message.reply_text("✅ Done! Type /start to select another task.")
-            else:
-                await update.message.reply_text("❌ PPT → PDF conversion failed.")
 
         elif task == "watermark_pdf":
             context.user_data["file"] = file_path
@@ -304,7 +296,7 @@ async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # --- RUN BOT ---
 def main():
-    app = Application.builder().token("8182673135:AAE-G5eOnDDrM_etqNsofhEuXD6xEBMO2Qg").build()
+    app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("done", done))
     app.add_handler(CallbackQueryHandler(menu_handler))
