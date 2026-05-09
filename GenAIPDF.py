@@ -8,13 +8,13 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import fitz  # PyMuPDF for compression
-from pptx import Presentation
-from keep_alive import keep_alive
+
+
 from dotenv import load_dotenv
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-keep_alive()
+
 
 # --- MENU ---
 MAIN_MENU = [
